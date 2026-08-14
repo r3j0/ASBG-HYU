@@ -1,5 +1,4 @@
 export type ActivityAccent = "blue" | "orange" | "neutral";
-export type ActivityVisualType = "learn" | "build" | "connect";
 
 export interface ActivityItem {
   id: string;
@@ -9,7 +8,6 @@ export interface ActivityItem {
   description: string;
   tag: string;
   accent: ActivityAccent;
-  visual: ActivityVisualType;
 }
 
 export const activityItems = [
@@ -17,30 +15,27 @@ export const activityItems = [
     id: "learn",
     number: "01",
     title: "LEARN",
-    label: "AWS SEMINAR & STUDY",
-    description: "AWS 기술을 함께 배우는\n정기 세미나와 스터디.",
-    tag: "AWS / CLOUD",
+    label: "AWS Seminar & Hands-on",
+    description: "AWS와 클라우드를 처음 접하는 학생도\n함께 배울 수 있는 세션과 실습을 진행합니다.",
+    tag: "SEMINAR / HANDS-ON",
     accent: "blue",
-    visual: "learn",
   },
   {
     id: "build",
     number: "02",
-    title: "BUILD",
-    label: "PROJECT & HACKATHON",
-    description: "아이디어를 실제 서비스와\n프로젝트로 만드는 경험.",
-    tag: "PROJECT / HACKATHON",
+    title: "STUDY",
+    label: "Cloud Study",
+    description: "구성원이 함께 클라우드를 공부하고,\n서로의 지식과 경험을 나누며 성장합니다.",
+    tag: "CLOUD / STUDY",
     accent: "orange",
-    visual: "build",
   },
   {
     id: "connect",
     number: "03",
     title: "CONNECT",
-    label: "NETWORKING & COMMUNITY",
-    description: "다양한 빌더들과 만나\n지식을 나누는 열린 커뮤니티.",
-    tag: "NETWORK / COMMUNITY",
+    label: "Community & Sessions",
+    description: "AWS 공식 행사와 연합 세션을 통해\n다양한 빌더들과 교류하고 경험을 넓혀갑니다.",
+    tag: "COMMUNITY / SESSION",
     accent: "neutral",
-    visual: "connect",
   },
 ] as const satisfies readonly ActivityItem[];

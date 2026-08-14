@@ -6,7 +6,7 @@ export interface RecruitingDetailItem {
 export const recruitingDetailItems = [
   {
     label: "PERIOD",
-    value: "08.XX — 09.XX",
+    value: "TO BE ANNOUNCED",
   },
   {
     label: "WHO",

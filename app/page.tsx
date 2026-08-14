@@ -2,94 +2,16 @@
 
 import Image from "next/image";
 import { type MouseEvent, useState } from "react";
-import { activityItems, type ActivityVisualType } from "@/raw/activities";
+import { LuBookOpenText, LuNetwork, LuWaypoints } from "react-icons/lu";
+import { activityItems } from "@/raw/activities";
 import { faqItems } from "@/raw/faq";
 import { recruitingDetailItems } from "@/raw/recruiting";
 
-function CloudVisual() {
-  return (
-    <div className="cloud-visual" aria-hidden="true">
-      <p className="visual-kicker">CLOUD NATIVE / STUDENT BUILDERS</p>
-      <div className="orbit-stage">
-        <span className="orbit orbit-outer" />
-        <span className="orbit orbit-middle" />
-        <span className="orbit orbit-inner" />
-        <span className="connector connector-one" />
-        <span className="connector connector-two" />
-        <span className="connector connector-three" />
-        <span className="connector connector-four" />
-        <span className="connector connector-five" />
-        <span className="connector connector-six" />
-        <span className="cloud-node node-one" />
-        <span className="cloud-node node-two" />
-        <span className="cloud-node node-three" />
-        <span className="cloud-node node-four" />
-        <span className="cloud-node node-five" />
-        <span className="cloud-node node-six" />
-        <span className="cloud-node node-seven" />
-        <div className="orbit-core">HYU × AWS</div>
-      </div>
-      <div className="visual-labels">
-        <span>LEARN</span>
-        <span>BUILD</span>
-        <span>CONNECT</span>
-      </div>
-    </div>
-  );
-}
-
-function LearnVisual() {
-  return (
-    <div className="activity-visual learn-visual" aria-hidden="true">
-      <span className="learn-ring learn-ring-outer" />
-      <span className="learn-ring learn-ring-middle" />
-      <span className="learn-ring learn-ring-inner" />
-      <span className="learn-axis" />
-      <span className="learn-dot learn-dot-one" />
-      <span className="learn-dot learn-dot-two" />
-      <span className="learn-core">AWS</span>
-    </div>
-  );
-}
-
-function BuildVisual() {
-  return (
-    <div className="activity-visual build-visual" aria-hidden="true">
-      <span className="build-block block-one" />
-      <span className="build-block block-two" />
-      <span className="build-block block-three" />
-      <span className="build-block block-four" />
-      <span className="build-arrow">→</span>
-    </div>
-  );
-}
-
-function ConnectVisual() {
-  return (
-    <div className="activity-visual connect-visual" aria-hidden="true">
-      <span className="network-line network-line-one" />
-      <span className="network-line network-line-two" />
-      <span className="network-line network-line-three" />
-      <span className="network-line network-line-four" />
-      <span className="network-dot network-dot-one" />
-      <span className="network-dot network-dot-two" />
-      <span className="network-dot network-dot-three" />
-      <span className="network-dot network-dot-four" />
-      <span className="network-dot network-dot-five" />
-    </div>
-  );
-}
-
-function ActivityVisual({ type }: { type: ActivityVisualType }) {
-  switch (type) {
-    case "learn":
-      return <LearnVisual />;
-    case "build":
-      return <BuildVisual />;
-    case "connect":
-      return <ConnectVisual />;
-  }
-}
+const activityIcons = {
+  learn: LuBookOpenText,
+  build: LuWaypoints,
+  connect: LuNetwork,
+};
 
 export default function Home() {
   const [openFaq, setOpenFaq] = useState(-1);
@@ -154,8 +76,21 @@ export default function Home() {
       </header>
 
       <main id="content">
-        <section className="hero-section grid-surface" id="hero" aria-labelledby="hero-title">
-          <div className="hero-backdrop" aria-hidden="true" />
+        <section className="hero-section" id="hero" aria-labelledby="hero-title">
+          <video
+            className="hero-background-video"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            aria-hidden="true"
+            tabIndex={-1}
+          >
+            <source src="/asbghyu-hero.mp4" type="video/mp4" />
+          </video>
+          <div className="hero-video-overlay" aria-hidden="true" />
+
           <div className="page-shell hero-layout">
             <div className="hero-copy">
               <p className="hero-eyebrow">AWS STUDENTS BUILDER CLUB · HANYANG UNIVERSITY</p>
@@ -165,9 +100,11 @@ export default function Home() {
                 <span>HERE.</span>
               </h1>
               <p className="hero-description">
-                클라우드를 배우고, 직접 만들고,
+                AWS와 클라우드를 배우고,
                 <br />
-                함께 성장하는 한양대학교 학생 빌더 커뮤니티.
+                서로의 경험을 나누며 함께 성장하는
+                <br />
+                한양대학교 학생 커뮤니티.
               </p>
               <div className="hero-actions">
                 <a className="button button-primary" href="#activities" onClick={handleAnchorClick}>
@@ -178,8 +115,6 @@ export default function Home() {
                 </a>
               </div>
             </div>
-
-            <CloudVisual />
 
             <a className="scroll-cue" href="#activities" onClick={handleAnchorClick}>
               SCROLL TO DISCOVER <span aria-hidden="true">↓</span>
@@ -193,25 +128,29 @@ export default function Home() {
               <h2 id="activities-title">
                 WHAT
                 <br />
-                WE BUILD.
+                WE DO.
               </h2>
               <p>
-                배우는 데서 끝나지 않습니다.
+                AWS와 클라우드를 배우고,
                 <br />
-                세미나, 프로젝트, 네트워킹을 통해
-                <br />
-                배움을 실제 경험으로 연결합니다.
+                함께 공부하며 경험을 나눕니다.
               </p>
             </div>
 
             <ol className="activity-list">
               {activityItems.map((item) => {
                 const accentClassName = item.accent === "neutral" ? "" : ` ${item.accent}`;
+                const ActivityIcon = activityIcons[item.id];
 
                 return (
-                  <li className="activity-row reveal" key={item.id}>
+                  <li className={`activity-row ${item.accent} reveal`} key={item.id}>
                     <div className="activity-title">
-                      <span className="activity-number">{item.number}</span>
+                      <div className="activity-card-header">
+                        <span className="activity-number">{item.number}</span>
+                        <span className={`activity-icon ${item.accent}`} aria-hidden="true">
+                          <ActivityIcon />
+                        </span>
+                      </div>
                       <h3>{item.title}</h3>
                     </div>
                     <div className="activity-copy">
@@ -219,13 +158,10 @@ export default function Home() {
                       <p>{item.description}</p>
                       <span className={`activity-tag${accentClassName}`}>{item.tag}</span>
                     </div>
-                    <ActivityVisual type={item.visual} />
                   </li>
                 );
               })}
             </ol>
-
-            <p className="activity-sequence">LEARN → BUILD → CONNECT</p>
           </div>
         </section>
 
@@ -236,18 +172,18 @@ export default function Home() {
         >
           <div className="page-shell recruiting-shell">
             <div className="recruiting-copy reveal">
-              <p className="recruiting-eyebrow">2026 RECRUITMENT · OPEN CALL</p>
+              <p className="recruiting-eyebrow">2026 RECRUITMENT · FIRST COHORT</p>
               <h2 id="recruiting-title">
-                JOIN
+                BE THE
                 <br />
-                THE
+                FIRST
                 <br />
                 BUILDERS.
               </h2>
               <p className="recruiting-description">
-                배우고, 만들고, 연결될
+                한양대학교 ASBG의 시작을
                 <br />
-                다음 빌더를 기다립니다.
+                함께 만들어갈 첫 번째 멤버를 기다립니다.
               </p>
 
               <dl className="recruiting-info">
@@ -261,7 +197,7 @@ export default function Home() {
             </div>
 
             <button className="apply-cta reveal" type="button" aria-label="ASBG 지원 링크 준비 중">
-              <span className="apply-kicker">READY TO BUILD?</span>
+              <span className="apply-kicker">READY TO JOIN?</span>
               <span className="apply-title">
                 APPLY
                 <br />
@@ -336,7 +272,7 @@ export default function Home() {
             <p>AWS Students Builder Club · Hanyang University</p>
           </div>
           <div className="footer-meta">
-            <p className="footer-motto">BUILD · LEAN · CONNECT</p>
+            <p className="footer-motto">LEARN · STUDY · CONNECT</p>
             <p className="footer-copyright">@ 2026 ASBG at HYU</p>
           </div>
         </div>

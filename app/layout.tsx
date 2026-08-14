@@ -16,7 +16,7 @@ const pretendard = localFont({
 export const metadata: Metadata = {
   title: "ASBG at HYU — AWS Students Builder Club",
   description:
-    "클라우드를 배우고, 직접 만들고, 함께 성장하는 한양대학교 학생 빌더 커뮤니티.",
+    "AWS와 클라우드를 배우고, 서로의 경험을 나누며 함께 성장하는 한양대학교 학생 커뮤니티.",
   icons: {
     icon: "/asbg-hyu-ico.png",
     apple: "/asbg-hyu-ico.png",
