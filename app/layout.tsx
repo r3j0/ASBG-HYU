@@ -14,8 +14,9 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "ASBG at HYU",
-  description: "AWS Students Builder Club at Hanyang University",
+  title: "ASBG at HYU — AWS Students Builder Club",
+  description:
+    "클라우드를 배우고, 직접 만들고, 함께 성장하는 한양대학교 학생 빌더 커뮤니티.",
   icons: {
     icon: "/asbg-hyu-ico.png",
     apple: "/asbg-hyu-ico.png",
@@ -23,31 +24,13 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f5f1e8" },
-    { media: "(prefers-color-scheme: dark)", color: "#07131d" },
-  ],
-  colorScheme: "light dark",
+  themeColor: "#020407",
+  colorScheme: "dark",
 };
-
-const themeInitializationScript = `
-  (function () {
-    try {
-      var savedTheme = localStorage.getItem("asbg-theme");
-      var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      document.documentElement.dataset.theme = savedTheme || (prefersDark ? "dark" : "light");
-    } catch (error) {
-      document.documentElement.dataset.theme = "light";
-    }
-  })();
-`;
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="ko" suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitializationScript }} />
-      </head>
+    <html lang="ko">
       <body className={pretendard.variable}>{children}</body>
     </html>
   );

@@ -1,244 +1,346 @@
 "use client";
 
 import Image from "next/image";
-import { FaInstagram } from "react-icons/fa";
-import { FiMoon, FiSun } from "react-icons/fi";
+import { type MouseEvent, useState } from "react";
+import { activityItems, type ActivityVisualType } from "@/raw/activities";
+import { faqItems } from "@/raw/faq";
+import { recruitingDetailItems } from "@/raw/recruiting";
+
+function CloudVisual() {
+  return (
+    <div className="cloud-visual" aria-hidden="true">
+      <p className="visual-kicker">CLOUD NATIVE / STUDENT BUILDERS</p>
+      <div className="orbit-stage">
+        <span className="orbit orbit-outer" />
+        <span className="orbit orbit-middle" />
+        <span className="orbit orbit-inner" />
+        <span className="connector connector-one" />
+        <span className="connector connector-two" />
+        <span className="connector connector-three" />
+        <span className="connector connector-four" />
+        <span className="connector connector-five" />
+        <span className="connector connector-six" />
+        <span className="cloud-node node-one" />
+        <span className="cloud-node node-two" />
+        <span className="cloud-node node-three" />
+        <span className="cloud-node node-four" />
+        <span className="cloud-node node-five" />
+        <span className="cloud-node node-six" />
+        <span className="cloud-node node-seven" />
+        <div className="orbit-core">HYU × AWS</div>
+      </div>
+      <div className="visual-labels">
+        <span>LEARN</span>
+        <span>BUILD</span>
+        <span>CONNECT</span>
+      </div>
+    </div>
+  );
+}
+
+function LearnVisual() {
+  return (
+    <div className="activity-visual learn-visual" aria-hidden="true">
+      <span className="learn-ring learn-ring-outer" />
+      <span className="learn-ring learn-ring-middle" />
+      <span className="learn-ring learn-ring-inner" />
+      <span className="learn-axis" />
+      <span className="learn-dot learn-dot-one" />
+      <span className="learn-dot learn-dot-two" />
+      <span className="learn-core">AWS</span>
+    </div>
+  );
+}
+
+function BuildVisual() {
+  return (
+    <div className="activity-visual build-visual" aria-hidden="true">
+      <span className="build-block block-one" />
+      <span className="build-block block-two" />
+      <span className="build-block block-three" />
+      <span className="build-block block-four" />
+      <span className="build-arrow">→</span>
+    </div>
+  );
+}
+
+function ConnectVisual() {
+  return (
+    <div className="activity-visual connect-visual" aria-hidden="true">
+      <span className="network-line network-line-one" />
+      <span className="network-line network-line-two" />
+      <span className="network-line network-line-three" />
+      <span className="network-line network-line-four" />
+      <span className="network-dot network-dot-one" />
+      <span className="network-dot network-dot-two" />
+      <span className="network-dot network-dot-three" />
+      <span className="network-dot network-dot-four" />
+      <span className="network-dot network-dot-five" />
+    </div>
+  );
+}
+
+function ActivityVisual({ type }: { type: ActivityVisualType }) {
+  switch (type) {
+    case "learn":
+      return <LearnVisual />;
+    case "build":
+      return <BuildVisual />;
+    case "connect":
+      return <ConnectVisual />;
+  }
+}
 
 export default function Home() {
-  const toggleTheme = () => {
-    const root = document.documentElement;
-    const nextTheme = root.dataset.theme === "dark" ? "light" : "dark";
+  const [openFaq, setOpenFaq] = useState(-1);
 
-    root.dataset.theme = nextTheme;
-    localStorage.setItem("asbg-theme", nextTheme);
+  const handleAnchorClick = (event: MouseEvent<HTMLAnchorElement>) => {
+    const targetId = event.currentTarget.hash.slice(1);
+    const target = document.getElementById(targetId);
+
+    if (!target) return;
+
+    event.preventDefault();
+    target.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      block: "start",
+    });
+    window.history.pushState(null, "", `#${targetId}`);
   };
 
   return (
-    <main>
-      <a className="skip-link" href="#main">
+    <>
+      <a className="skip-link" href="#content">
         본문으로 바로가기
       </a>
 
       <header className="site-header">
-        <a className="brand" href="#main" aria-label="ASBG at HYU 메인으로 이동">
-          <span className="brand-mark" aria-hidden="true" />
-          <span>ASBG at HYU</span>
+        <a
+          className="brand"
+          href="#hero"
+          aria-label="ASBG at HYU 홈으로 이동"
+          onClick={handleAnchorClick}
+        >
+          <span className="brand-mark" aria-hidden="true">
+            <Image
+              className="brand-mark-image"
+              src="/asbg-hyu-ico.png"
+              alt=""
+              width={34}
+              height={34}
+              priority
+            />
+          </span>
+          <span className="brand-copy">
+            <strong>ASBG at HYU</strong>
+            <small>AWS STUDENTS BUILDER CLUB</small>
+          </span>
         </a>
 
-        <div className="header-navigation">
-          <nav aria-label="페이지 내비게이션">
-            <ul className="nav-list">
-              <li>
-                <a href="#main">메인</a>
-              </li>
-              <li>
-                <a href="#activities">활동</a>
-              </li>
-              <li>
-                <a href="#recruiting">리크루팅</a>
-              </li>
-              <li>
-                <a href="#faq">FAQ</a>
-              </li>
-            </ul>
-          </nav>
-
-          <div className="header-actions">
-            <button
-              className="header-icon-button theme-toggle"
-              type="button"
-              onClick={toggleTheme}
-              aria-label="다크 모드와 라이트 모드 전환"
-              title="테마 전환"
-            >
-              <FiMoon className="theme-icon theme-icon-moon" aria-hidden="true" />
-              <FiSun className="theme-icon theme-icon-sun" aria-hidden="true" />
-            </button>
-
-            {/* 링크가 준비되면 button을 같은 클래스의 <a href="인스타그램 링크">로 바꿔 주세요. */}
-            <button
-              className="header-icon-button"
-              type="button"
-              aria-label="인스타그램 링크 준비 중"
-              title="Instagram"
-            >
-              <FaInstagram aria-hidden="true" />
-            </button>
-
-            {/* 링크가 준비되면 button을 같은 클래스의 <a href="지원 링크">로 바꿔 주세요. */}
-            <button className="header-apply-button" type="button" aria-label="지원 링크 준비 중">
-              지원하기
-            </button>
-          </div>
-        </div>
+        <nav className="site-navigation" aria-label="페이지 내비게이션">
+          <a href="#activities" onClick={handleAnchorClick}>
+            ACTIVITIES
+          </a>
+          <a href="#recruiting" onClick={handleAnchorClick}>
+            RECRUITING
+          </a>
+          <a href="#faq" onClick={handleAnchorClick}>
+            FAQ
+          </a>
+          <a className="header-cta" href="#recruiting" onClick={handleAnchorClick}>
+            JOIN US <span aria-hidden="true">↗</span>
+          </a>
+        </nav>
       </header>
 
-      <section className="section hero-section" id="main" aria-labelledby="hero-title">
-        <div className="section-inner hero-grid">
-          <div className="hero-copy reveal">
-            <p className="eyebrow">AWS Students Builder Club</p>
-            <h1 id="hero-title">
-              ASBG
-              <span>at HYU</span>
-            </h1>
-            <p className="hero-description">
-              AWS Cloud Clubs는 AWS에서 공식 주관하는 글로벌 클라우드 동아리입니다.
-              한양대학교에서 클라우드를 중심으로 함께 배우고, 만들고, 연결되며 성장하는 학생 커뮤니티입니다.
-            </p>
+      <main id="content">
+        <section className="hero-section grid-surface" id="hero" aria-labelledby="hero-title">
+          <div className="hero-backdrop" aria-hidden="true" />
+          <div className="page-shell hero-layout">
+            <div className="hero-copy">
+              <p className="hero-eyebrow">AWS STUDENTS BUILDER CLUB · HANYANG UNIVERSITY</p>
+              <h1 id="hero-title">
+                <span>BUILDERS</span>
+                <span>START</span>
+                <span>HERE.</span>
+              </h1>
+              <p className="hero-description">
+                클라우드를 배우고, 직접 만들고,
+                <br />
+                함께 성장하는 한양대학교 학생 빌더 커뮤니티.
+              </p>
+              <div className="hero-actions">
+                <a className="button button-primary" href="#activities" onClick={handleAnchorClick}>
+                  EXPLORE ASBG <span aria-hidden="true">↗</span>
+                </a>
+                <a className="button button-secondary" href="#recruiting" onClick={handleAnchorClick}>
+                  2026 RECRUITING <span aria-hidden="true">→</span>
+                </a>
+              </div>
+            </div>
+
+            <CloudVisual />
+
+            <a className="scroll-cue" href="#activities" onClick={handleAnchorClick}>
+              SCROLL TO DISCOVER <span aria-hidden="true">↓</span>
+            </a>
           </div>
+        </section>
 
-          <div className="logo-stage reveal" aria-hidden="true">
-            <Image
-              className="hero-logo"
-              src="/asbg-hyu-logo.png"
-              alt=""
-              width={1087}
-              height={1087}
-              priority
-              sizes="(max-width: 760px) 72vw, 42vw"
-            />
+        <section className="activities-section" id="activities" aria-labelledby="activities-title">
+          <div className="page-shell activities-shell">
+            <div className="editorial-heading reveal">
+              <h2 id="activities-title">
+                WHAT
+                <br />
+                WE BUILD.
+              </h2>
+              <p>
+                배우는 데서 끝나지 않습니다.
+                <br />
+                세미나, 프로젝트, 네트워킹을 통해
+                <br />
+                배움을 실제 경험으로 연결합니다.
+              </p>
+            </div>
+
+            <ol className="activity-list">
+              {activityItems.map((item) => {
+                const accentClassName = item.accent === "neutral" ? "" : ` ${item.accent}`;
+
+                return (
+                  <li className="activity-row reveal" key={item.id}>
+                    <div className="activity-title">
+                      <span className="activity-number">{item.number}</span>
+                      <h3>{item.title}</h3>
+                    </div>
+                    <div className="activity-copy">
+                      <strong className={`activity-label${accentClassName}`}>{item.label}</strong>
+                      <p>{item.description}</p>
+                      <span className={`activity-tag${accentClassName}`}>{item.tag}</span>
+                    </div>
+                    <ActivityVisual type={item.visual} />
+                  </li>
+                );
+              })}
+            </ol>
+
+            <p className="activity-sequence">LEARN → BUILD → CONNECT</p>
           </div>
+        </section>
 
-          <a className="scroll-cue" href="#activities">
-            <span>아래로 스크롤</span>
-            <span className="scroll-line" aria-hidden="true" />
-          </a>
-        </div>
-      </section>
+        <section
+          className="recruiting-section grid-surface"
+          id="recruiting"
+          aria-labelledby="recruiting-title"
+        >
+          <div className="page-shell recruiting-shell">
+            <div className="recruiting-copy reveal">
+              <p className="recruiting-eyebrow">2026 RECRUITMENT · OPEN CALL</p>
+              <h2 id="recruiting-title">
+                JOIN
+                <br />
+                THE
+                <br />
+                BUILDERS.
+              </h2>
+              <p className="recruiting-description">
+                배우고, 만들고, 연결될
+                <br />
+                다음 빌더를 기다립니다.
+              </p>
 
-      <section
-        className="section activities-section"
-        id="activities"
-        aria-labelledby="activities-title"
-      >
-        <div className="section-inner">
-          <div className="section-heading reveal">
-            <p className="eyebrow">What We Do</p>
-            <h2 id="activities-title">함께 배우고, 만들고, 연결해요</h2>
-            <p>
-              클라우드 기술을 배우는 것에서 그치지 않고, 다양한 활동과 경험을 통해 함께 성장합니다.
-            </p>
-          </div>
+              <dl className="recruiting-info">
+                {recruitingDetailItems.map((item) => (
+                  <div key={item.label}>
+                    <dt>{item.label}</dt>
+                    <dd>{item.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </div>
 
-          <ol className="activity-grid reveal">
-            <li className="activity-card">
-              <span className="card-number" aria-hidden="true">
-                01
+            <button className="apply-cta reveal" type="button" aria-label="ASBG 지원 링크 준비 중">
+              <span className="apply-kicker">READY TO BUILD?</span>
+              <span className="apply-title">
+                APPLY
+                <br />
+                FOR
+                <br />
+                ASBG
               </span>
-              <div>
-                <h3>활동 1</h3>
-                <p>소개 1</p>
-              </div>
-            </li>
-
-            <li className="activity-card">
-              <span className="card-number" aria-hidden="true">
-                02
+              <span className="apply-arrow" aria-hidden="true">
+                ↗
               </span>
-              <div>
-                <h3>활동 2</h3>
-                <p>소개 2</p>
-              </div>
-            </li>
-
-            <li className="activity-card">
-              <span className="card-number" aria-hidden="true">
-                03
-              </span>
-              <div>
-                <h3>활동 3</h3>
-                <p>소개 3.</p>
-              </div>
-            </li>
-          </ol>
-        </div>
-      </section>
-
-      <section
-        className="section recruiting-section"
-        id="recruiting"
-        aria-labelledby="recruiting-title"
-      >
-        <div className="section-inner recruiting-grid">
-          <div className="section-heading reveal">
-            <p className="eyebrow">Join ASBG</p>
-            <h2 id="recruiting-title">ASBG at HYU와 함께해요</h2>
-            <p>
-              클라우드와 기술에 관심이 있다면 누구나 새로운 경험을 함께 만들어갈 수 있어요.
-            </p>
-          </div>
-
-          <div className="recruiting-panel reveal">
-            <dl className="recruiting-details">
-              <div>
-                <dt>모집 일정</dt>
-                <dd>일정</dd>
-              </div>
-              <div>
-                <dt>지원 대상</dt>
-                <dd>대상</dd>
-              </div>
-              <div>
-                <dt>결과 발표</dt>
-                <dd>발표일</dd>
-              </div>
-            </dl>
-
-            {/* 링크가 준비되면 이 버튼을 같은 클래스의 <a href="지원 링크">로 바꿔 주세요. */}
-            <button className="recruiting-button" type="button" disabled>
-              지원 링크 준비 중
             </button>
+
+            <p className="recruiting-rail" aria-hidden="true">
+              AWS STUDENTS BUILDER CLUB @ HANYANG
+            </p>
+          </div>
+        </section>
+
+        <section className="faq-section" id="faq" aria-labelledby="faq-title">
+          <div className="page-shell faq-shell">
+            <div className="faq-heading reveal">
+              <h2 id="faq-title">FAQ</h2>
+              <p>
+                YOU MAY
+                <br />
+                BE WONDERING.
+              </p>
+            </div>
+
+            <div className="faq-list reveal">
+              {faqItems.map((item, index) => {
+                const isOpen = openFaq === index;
+                const number = String(index + 1).padStart(2, "0");
+
+                return (
+                  <article className={`faq-item${isOpen ? " is-open" : ""}`} key={item.question}>
+                    <button
+                      className="faq-question"
+                      type="button"
+                      aria-expanded={isOpen}
+                      aria-controls={`faq-answer-${index}`}
+                      onClick={() => setOpenFaq(isOpen ? -1 : index)}
+                    >
+                      <span className="faq-number">{number}</span>
+                      <span>{item.question}</span>
+                      <span className="faq-indicator" aria-hidden="true">
+                        {isOpen ? "−" : "+"}
+                      </span>
+                    </button>
+                    <div
+                      className="faq-answer-wrap"
+                      id={`faq-answer-${index}`}
+                      role="region"
+                      aria-hidden={!isOpen}
+                    >
+                      <div className="faq-answer-inner">
+                        <p>{item.answer}</p>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="site-footer">
+        <div className="page-shell footer-shell">
+          <div className="footer-brand">
+            <strong>ASBG at HYU</strong>
+            <p>AWS Students Builder Club · Hanyang University</p>
+          </div>
+          <div className="footer-meta">
+            <p className="footer-motto">BUILD · LEAN · CONNECT</p>
+            <p className="footer-copyright">@ 2026 ASBG at HYU</p>
           </div>
         </div>
-      </section>
-
-      <section className="section faq-section" id="faq" aria-labelledby="faq-title">
-        <div className="section-inner faq-grid">
-          <div className="section-heading reveal">
-            <p className="eyebrow">Frequently Asked Questions</p>
-            <h2 id="faq-title">궁금한 점을 확인해보세요</h2>
-            <p>ASBG at HYU와 활동 및 지원에 대해 자주 궁금해하는 내용을 모았습니다.</p>
-          </div>
-
-          <div className="faq-list reveal">
-            <details>
-              <summary>
-                <span className="faq-number">01</span>
-                <span>질문 1</span>
-                <span className="faq-toggle" aria-hidden="true" />
-              </summary>
-              <p>답변 1</p>
-            </details>
-
-            <details>
-              <summary>
-                <span className="faq-number">02</span>
-                <span>질문 2</span>
-                <span className="faq-toggle" aria-hidden="true" />
-              </summary>
-              <p>답변 2</p>
-            </details>
-
-            <details>
-              <summary>
-                <span className="faq-number">03</span>
-                <span>질문 3</span>
-                <span className="faq-toggle" aria-hidden="true" />
-              </summary>
-              <p>답변 3</p>
-            </details>
-
-            <details>
-              <summary>
-                <span className="faq-number">04</span>
-                <span>질문 4</span>
-                <span className="faq-toggle" aria-hidden="true" />
-              </summary>
-              <p>답변 4</p>
-            </details>
-          </div>
-        </div>
-      </section>
-    </main>
+      </footer>
+    </>
   );
 }
