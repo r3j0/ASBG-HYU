@@ -1,6 +1,6 @@
 # ASBG at HYU
 
-The official website for the AWS Students Builder Club at Hanyang University.
+The official website for the AWS Student Builders Group at Hanyang University.
 
 ## Getting Started
 

@@ -5,7 +5,7 @@ import { type MouseEvent, useState } from "react";
 import { LuBookOpenText, LuNetwork, LuWaypoints } from "react-icons/lu";
 import { activityItems } from "@/raw/activities";
 import { faqItems } from "@/raw/faq";
-import { recruitingDetailItems } from "@/raw/recruiting";
+import { applyFormUrl, isApplicationOpen, recruitingDetailItems } from "@/raw/recruiting";
 
 const activityIcons = {
   learn: LuBookOpenText,
@@ -55,7 +55,7 @@ export default function Home() {
           </span>
           <span className="brand-copy">
             <strong>ASBG at HYU</strong>
-            <small>AWS STUDENTS BUILDER CLUB</small>
+            <small>AWS STUDENT BUILDERS GROUP</small>
           </span>
         </a>
 
@@ -93,7 +93,7 @@ export default function Home() {
 
           <div className="page-shell hero-layout">
             <div className="hero-copy">
-              <p className="hero-eyebrow">AWS STUDENTS BUILDER CLUB · HANYANG UNIVERSITY</p>
+              <p className="hero-eyebrow">AWS STUDENT BUILDERS GROUP · HANYANG UNIVERSITY</p>
               <h1 id="hero-title">
                 <span>BUILDERS</span>
                 <span>START</span>
@@ -186,6 +186,13 @@ export default function Home() {
                 함께 만들어갈 첫 번째 멤버를 기다립니다.
               </p>
 
+              <p className="recruiting-perk">
+                <span className="recruiting-perk-mark">CERTIFICATE</span>
+                <span>
+                  수료 조건 충족 시 <strong>ASBG 공식 수료증</strong>을 발급합니다.
+                </span>
+              </p>
+
               <dl className="recruiting-info">
                 {recruitingDetailItems.map((item) => (
                   <div key={item.label}>
@@ -196,22 +203,41 @@ export default function Home() {
               </dl>
             </div>
 
-            <button className="apply-cta reveal" type="button" aria-label="ASBG 지원 링크 준비 중">
-              <span className="apply-kicker">READY TO JOIN?</span>
-              <span className="apply-title">
-                APPLY
-                <br />
-                FOR
-                <br />
-                ASBG
-              </span>
-              <span className="apply-arrow" aria-hidden="true">
-                ↗
-              </span>
-            </button>
+            {isApplicationOpen ? (
+              <a
+                className="apply-cta reveal"
+                href={applyFormUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="ASBG 지원하기 (구글 폼, 새 창에서 열림)"
+              >
+                <span className="apply-kicker">READY TO JOIN?</span>
+                <span className="apply-title">
+                  APPLY
+                  <br />
+                  FOR
+                  <br />
+                  ASBG
+                </span>
+                <span className="apply-arrow" aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            ) : (
+              <div className="apply-cta is-closed reveal" role="note">
+                <span className="apply-kicker">APPLICATIONS CLOSED</span>
+                <span className="apply-title">
+                  SEE YOU
+                  <br />
+                  NEXT
+                  <br />
+                  TIME
+                </span>
+              </div>
+            )}
 
             <p className="recruiting-rail" aria-hidden="true">
-              AWS STUDENTS BUILDER CLUB @ HANYANG
+              AWS STUDENT BUILDERS GROUP @ HANYANG
             </p>
           </div>
         </section>
@@ -269,11 +295,14 @@ export default function Home() {
         <div className="page-shell footer-shell">
           <div className="footer-brand">
             <strong>ASBG at HYU</strong>
-            <p>AWS Students Builder Club · Hanyang University</p>
+            <p>AWS Student Builders Group · Hanyang University</p>
+            <a className="footer-contact" href="mailto:hyuasbg@gmail.com">
+              hyuasbg@gmail.com
+            </a>
           </div>
           <div className="footer-meta">
             <p className="footer-motto">LEARN · STUDY · CONNECT</p>
-            <p className="footer-copyright">@ 2026 ASBG at HYU</p>
+            <p className="footer-copyright">© 2026 ASBG at HYU</p>
           </div>
         </div>
       </footer>
